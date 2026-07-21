@@ -1,0 +1,30 @@
+/* Location detail page - reduce white space in Edit location form */
+
+/* Tight spacing between heading, description, and form fields */
+/* Override BlockStack gaps - form's BlockStack gets 300 from rule below */
+.location-edit-card .Polaris-BlockStack {
+  --pc-block-stack-gap-xs: var(--p-space-100);
+  --pc-block-stack-gap-sm: var(--p-space-100);
+  --pc-block-stack-gap-md: var(--p-space-100);
+  --pc-block-stack-gap-lg: var(--p-space-100);
+  --pc-block-stack-gap-xl: var(--p-space-100);
+}
+
+/* FormLayout uses BlockStack gap 400 - reduce form field spacing */
+.location-edit-card form .Polaris-BlockStack {
+  --pc-block-stack-gap-xs: var(--p-space-300);
+  --pc-block-stack-gap-sm: var(--p-space-300);
+  --pc-block-stack-gap-md: var(--p-space-300);
+  --pc-block-stack-gap-lg: var(--p-space-300);
+  --pc-block-stack-gap-xl: var(--p-space-300);
+}
+
+/* Remove any extra margin on form / FormLayout */
+.location-edit-card form {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.location-edit-card .Polaris-FormLayout {
+  margin-top: 0;
+}

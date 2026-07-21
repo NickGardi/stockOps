@@ -1,0 +1,22 @@
+/* 2-column compact address form */
+.address-form--grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-space-300);
+}
+
+.address-form--grid .address-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--p-space-300) var(--p-space-500);
+  align-items: start;
+}
+
+.address-form--grid .address-form__cell {
+  min-width: 0;
+}
+
+.address-form--grid .address-form__cell .Polaris-TextField,
+.address-form--grid .address-form__cell .Polaris-Select {
+  width: 100%;
+}

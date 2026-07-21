@@ -1,0 +1,283 @@
+/* Purchase Order detail page - layout and aesthetics */
+
+.po-detail {
+  --po-section-gap: var(--p-space-400);
+}
+
+/* Reduce white space above content - TitleBar/Page add extra padding */
+.po-detail {
+  margin-top: calc(-1 * var(--p-space-400));
+}
+
+/* Header - PO meta left, Print right */
+.po-detail-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--p-space-400);
+  padding: var(--p-space-300) 0;
+  border-bottom: 1px solid var(--p-color-border-secondary);
+  margin-bottom: var(--po-section-gap);
+}
+
+.po-detail-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--p-space-400);
+}
+
+.po-detail-header-meta .po-id {
+  font-weight: 700;
+  font-size: var(--p-font-size-400);
+  letter-spacing: -0.02em;
+}
+
+/* Action bar - compact when present */
+.po-detail-actions {
+  padding: var(--p-space-300) 0;
+  margin-bottom: var(--po-section-gap);
+}
+
+.po-detail-actions .Polaris-InlineStack {
+  gap: var(--p-space-300);
+}
+
+.po-confirm-form {
+  display: inline;
+}
+
+/* Section spacing */
+.po-detail .Polaris-Card {
+  margin-bottom: var(--po-section-gap);
+}
+
+.po-detail .Polaris-Card:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Line items table - numeric alignment, row striping */
+.po-detail .Polaris-DataTable {
+  --polaris-data-table-cell-padding: var(--p-space-300) var(--p-space-400);
+}
+
+.po-detail .Polaris-DataTable th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+}
+
+.po-detail .Polaris-DataTable td {
+  vertical-align: middle;
+}
+
+/* Right-align numeric columns */
+/* Draft: 4=Cost, 5=Total, 6=Stock, 7=On Order, 8=Quantity, 9=Delete */
+.po-lines-card--draft .Polaris-DataTable td:nth-child(n+4):nth-child(-n+8),
+.po-lines-card--draft .Polaris-DataTable th:nth-child(n+4):nth-child(-n+8) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.po-lines-card--draft .Polaris-DataTable td:nth-child(9),
+.po-lines-card--draft .Polaris-DataTable th:nth-child(9) {
+  text-align: center;
+}
+/* Non-draft: 5=Cost, 6=Total, 7=Stock, 8=On Order, 9=Ordered, 10=Received, 11=Pending */
+.po-lines-card:not(.po-lines-card--draft) .Polaris-DataTable td:nth-child(n+5):nth-child(-n+11),
+.po-lines-card:not(.po-lines-card--draft) .Polaris-DataTable th:nth-child(n+5):nth-child(-n+11) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Row striping for product list */
+.po-detail .Polaris-DataTable tbody tr:nth-child(even) {
+  background: var(--p-color-bg-surface-secondary);
+}
+
+.po-detail .Polaris-DataTable tbody tr:nth-child(odd) {
+  background: var(--p-color-bg-surface);
+}
+
+/* Table + Receive button - even spacing above and below button */
+.po-lines-table-and-receive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-space-300);
+}
+
+.po-receive-button-row {
+  padding-block-start: 0;
+  padding-block-end: var(--p-space-300);
+}
+
+/* Add product row - at top above table */
+.po-add-product-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--p-space-400);
+  padding: var(--p-space-400) 0;
+}
+
+.po-add-product-row .Polaris-Select {
+  min-width: 240px;
+}
+
+.po-add-product-row .Polaris-TextField {
+  min-width: 80px;
+}
+
+/* Forecast section - consistent Polaris components */
+.po-forecast-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--p-space-500);
+}
+
+.po-forecast-form .Polaris-Select,
+.po-forecast-form .Polaris-TextField {
+  min-width: 160px;
+}
+
+/* Payment card - structured grid with boxes */
+.po-payment-card .Polaris-Card {
+  margin-bottom: 0;
+}
+
+.po-payment-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-space-500);
+}
+
+.po-payment-box {
+  background: var(--p-color-bg-surface-secondary);
+  border: 1px solid var(--p-color-border-secondary);
+  border-radius: var(--p-border-radius-200);
+  padding: var(--p-space-400);
+}
+
+.po-payment-box-title {
+  font-size: var(--p-font-size-200);
+  font-weight: 600;
+  color: var(--p-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--p-space-300);
+}
+
+.po-payment-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--p-space-400);
+  align-items: end;
+}
+
+.po-payment-field label,
+.po-payment-field .Polaris-Label {
+  display: block;
+  margin-bottom: var(--p-space-100);
+  font-weight: 500;
+  font-size: var(--p-font-size-300);
+}
+
+.po-payment-field .Polaris-TextField__Input,
+.po-payment-field input[type="text"],
+.po-payment-field input[type="date"] {
+  width: 100%;
+  min-width: 120px;
+  padding: var(--p-space-200) var(--p-space-300);
+  border-radius: var(--p-border-radius-100);
+  border: 1px solid var(--p-color-border);
+  background: var(--p-color-bg-surface);
+}
+
+.po-payment-field .Polaris-TextField__Input:focus,
+.po-payment-field input[type="text"]:focus,
+.po-payment-field input[type="date"]:focus {
+  outline: 2px solid var(--p-color-border-info);
+  outline-offset: -1px;
+}
+
+/* Totals card - box styling */
+.po-totals-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-space-400);
+}
+
+.po-totals-box {
+  background: var(--p-color-bg-surface-secondary);
+  border: 1px solid var(--p-color-border-secondary);
+  border-radius: var(--p-border-radius-200);
+  padding: var(--p-space-400);
+}
+
+/* Totals card - consistent alignment */
+.po-detail .Polaris-Layout__Section--oneThird .Polaris-Card {
+  margin-bottom: 0;
+}
+
+.po-totals-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--p-space-200) 0;
+}
+
+.po-totals-row--total {
+  font-weight: 600;
+  padding-top: var(--p-space-300);
+  margin-top: var(--p-space-200);
+  border-top: 1px solid var(--p-color-border-secondary);
+}
+
+.po-totals-compact {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--p-space-300);
+  padding: var(--p-space-300) var(--p-space-400) 0;
+  margin-top: var(--p-space-200);
+  border-top: 1px solid var(--p-color-border-secondary);
+}
+
+/* Equal-height supplier / ship-to cards */
+.po-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--p-space-400);
+  margin-bottom: var(--po-section-gap);
+  align-items: stretch;
+}
+
+.po-party-card {
+  display: flex;
+  min-height: 0;
+}
+
+.po-party-card > .Polaris-ShadowBevel,
+.po-party-card > .Polaris-Box,
+.po-party-card > * {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.po-party-card .Polaris-Card,
+.po-party-card [class*="Card"] {
+  flex: 1;
+  height: 100%;
+}
+
+.po-party-card-inner {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .po-parties {
+    grid-template-columns: 1fr;
+  }
+}

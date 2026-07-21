@@ -1,0 +1,67 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "9c66353362198ee514ad8a1bbd01d59c"
+name = "StockOps"
+application_url = "https://stockops-nickgardi.fly.dev"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2026-04"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "inventory_levels/update" ]
+  uri = "/webhooks/inventory_levels/update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "locations/create" ]
+  uri = "/webhooks/locations/create"
+
+  [[webhooks.subscriptions]]
+  topics = [ "locations/delete" ]
+  uri = "/webhooks/locations/delete"
+
+  [[webhooks.subscriptions]]
+  topics = [ "locations/update" ]
+  uri = "/webhooks/locations/update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "products/create" ]
+  uri = "/webhooks/products/create"
+
+  [[webhooks.subscriptions]]
+  topics = [ "products/delete" ]
+  uri = "/webhooks/products/delete"
+
+  [[webhooks.subscriptions]]
+  topics = [ "products/update" ]
+  uri = "/webhooks/products/update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "orders/paid" ]
+  uri = "/webhooks/orders/paid"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+  uri = "/webhooks/compliance"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,read_inventory,write_inventory,read_orders,read_locations,write_locations"
+
+[auth]
+redirect_urls = [
+  "https://stockops-nickgardi.fly.dev/auth/callback",
+  "https://stockops-nickgardi.fly.dev/auth/shopify/callback",
+  "https://stockops-nickgardi.fly.dev/api/auth"
+]

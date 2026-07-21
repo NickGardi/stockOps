@@ -1,0 +1,52 @@
+/* Supplier supplied variants table */
+.supplier-supplied-table {
+  width: 100%;
+}
+.supplier-supplied-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.supplier-supplied-table th,
+.supplier-supplied-table td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--p-color-border);
+}
+.supplier-supplied-table th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+}
+.supplier-supplied-table .supplier-numeric-input {
+  width: 100%;
+  min-width: 3rem;
+  max-width: 5rem;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--p-color-text);
+  background: var(--p-color-bg-surface);
+  border: 1px solid var(--p-color-border);
+  border-radius: var(--p-border-radius-200);
+}
+.supplier-supplied-table .supplier-table-row-alt {
+  background: var(--p-color-bg-surface-secondary);
+}
+
+/* Smooth scrolling on supplier detail page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Supplier details form - aligned 2-column grid */
+.supplier-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--p-space-400) var(--p-space-500);
+  align-items: start;
+}
+.supplier-details-grid .Polaris-TextField,
+.supplier-details-grid .Polaris-Select {
+  width: 100%;
+}
+

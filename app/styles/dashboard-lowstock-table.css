@@ -1,0 +1,103 @@
+/* Dashboard Low stock table - aligned, professional layout */
+.dashboard-lowstock-table {
+  overflow-x: auto;
+}
+
+.dashboard-lowstock-table table {
+  width: 100%;
+  min-width: 720px;
+}
+
+.dashboard-lowstock-table th,
+.dashboard-lowstock-table td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--p-color-border-secondary);
+}
+
+.dashboard-lowstock-table th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+  color: var(--p-color-text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Text columns: left-aligned */
+.dashboard-lowstock-table th:nth-child(1),
+.dashboard-lowstock-table th:nth-child(2),
+.dashboard-lowstock-table th:nth-child(3),
+.dashboard-lowstock-table td:nth-child(1),
+.dashboard-lowstock-table td:nth-child(2),
+.dashboard-lowstock-table td:nth-child(3) {
+  text-align: left;
+}
+
+/* Numeric columns: right-aligned */
+.dashboard-lowstock-table th:nth-child(4),
+.dashboard-lowstock-table th:nth-child(5),
+.dashboard-lowstock-table th:nth-child(6),
+.dashboard-lowstock-table th:nth-child(7),
+.dashboard-lowstock-table th:nth-child(8),
+.dashboard-lowstock-table td:nth-child(4),
+.dashboard-lowstock-table td:nth-child(5),
+.dashboard-lowstock-table td:nth-child(6),
+.dashboard-lowstock-table td:nth-child(7),
+.dashboard-lowstock-table td:nth-child(8) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Action column: center */
+.dashboard-lowstock-table th:nth-child(9),
+.dashboard-lowstock-table td:nth-child(9) {
+  text-align: center;
+}
+
+/* Column min-widths */
+.dashboard-lowstock-table th:nth-child(1),
+.dashboard-lowstock-table td:nth-child(1) {
+  min-width: 140px;
+}
+.dashboard-lowstock-table th:nth-child(2),
+.dashboard-lowstock-table td:nth-child(2) {
+  min-width: 100px;
+}
+.dashboard-lowstock-table th:nth-child(3),
+.dashboard-lowstock-table td:nth-child(3) {
+  min-width: 100px;
+}
+.dashboard-lowstock-table th:nth-child(4),
+.dashboard-lowstock-table td:nth-child(4),
+.dashboard-lowstock-table th:nth-child(5),
+.dashboard-lowstock-table td:nth-child(5) {
+  min-width: 72px;
+}
+.dashboard-lowstock-table th:nth-child(6),
+.dashboard-lowstock-table td:nth-child(6) {
+  min-width: 64px;
+}
+.dashboard-lowstock-table th:nth-child(7),
+.dashboard-lowstock-table td:nth-child(7) {
+  min-width: 88px;
+}
+.dashboard-lowstock-table th:nth-child(8),
+.dashboard-lowstock-table td:nth-child(8) {
+  min-width: 72px;
+}
+.dashboard-lowstock-table th:nth-child(9),
+.dashboard-lowstock-table td:nth-child(9) {
+  min-width: 100px;
+}
+
+/* Row hover for readability */
+.dashboard-lowstock-table tbody tr:hover td {
+  background: var(--p-color-bg-surface-hover);
+}
+
+/* Remove bottom border on last row for cleaner edge */
+.dashboard-lowstock-table tbody tr:last-child td {
+  border-bottom: none;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StockOps Privacy Policy</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #1a1a1a; }
+    h1, h2 { line-height: 1.25; }
+    h2 { margin-top: 1.75rem; }
+    a { color: #2c6ecb; }
+  </style>
+</head>
+<body>
+  <h1>StockOps Privacy Policy</h1>
+  <p><strong>Last updated:</strong> July 20, 2026</p>
+  <p>
+    StockOps (“we”, “us”, or “our”) provides an inventory management application that embeds in Shopify Admin
+    (“the App”). This policy explains what data we collect, how we use it, and your rights.
+  </p>
+
+  <h2>1. Who we are</h2>
+  <p>
+    StockOps (“we”, “us”, or “our”) is the operator of this App.
+    Contact: <a href="mailto:stockopssupport@gmail.com">stockopssupport@gmail.com</a>
+  </p>
+
+  <h2>2. Data we collect</h2>
+  <p>When a merchant installs the App, we may process:</p>
+  <ul>
+    <li><strong>Shop identifiers</strong> — Shopify shop domain and Shopify shop ID</li>
+    <li><strong>Authentication</strong> — offline access tokens (encrypted at rest)</li>
+    <li><strong>Catalog &amp; inventory</strong> — products, variants, SKUs, locations, inventory quantities</li>
+    <li><strong>Operations data</strong> — suppliers, purchase orders, transfers, stock takes, adjustments, and related notes you enter</li>
+    <li><strong>Sales aggregates</strong> — units sold per variant per day (derived from paid orders for velocity / reorder math). We do <em>not</em> store customer names, emails, addresses, or phone numbers.</li>
+    <li><strong>Billing status</strong> — subscription status via Shopify Billing (we do not store card numbers)</li>
+  </ul>
+
+  <h2>3. How we use data</h2>
+  <ul>
+    <li>Provide reorder suggestions, purchase orders, receiving, and inventory workflows</li>
+    <li>Keep local inventory in sync with Shopify via Admin API and webhooks</li>
+    <li>Enforce subscription access and improve reliability (logs without secrets)</li>
+  </ul>
+  <p>We do not sell personal data. We do not use customer personal data for advertising.</p>
+
+  <h2>4. Legal bases / Shopify requirements</h2>
+  <p>
+    We process merchant store data as a service provider / processor to deliver the App the merchant installs.
+    Merchants remain the controller of their store data. We respond to Shopify’s mandatory compliance webhooks
+    (<code>customers/data_request</code>, <code>customers/redact</code>, <code>shop/redact</code>).
+  </p>
+
+  <h2>5. Data sharing</h2>
+  <p>
+    We share data only with infrastructure providers needed to run the App (e.g. hosting and database),
+    and with Shopify as required to operate an embedded app. Current subprocessors:
+    <strong>Fly.io</strong> (application hosting) and <strong>Fly.io Managed Postgres</strong> (database).
+  </p>
+
+  <h2>6. Retention &amp; deletion</h2>
+  <ul>
+    <li>On uninstall, we delete the shop’s app data (including encrypted tokens) as soon as practical.</li>
+    <li>Shopify also sends <code>shop/redact</code> ~48 hours after uninstall; we purge any remaining shop data.</li>
+    <li>Customer data requests / redactions: we hold no customer PII; requests are acknowledged and logged.</li>
+  </ul>
+
+  <h2>7. Security</h2>
+  <p>
+    Access tokens are encrypted at rest. Connections use HTTPS. Access to production systems is limited to authorized operators.
+  </p>
+
+  <h2>8. Your rights</h2>
+  <p>
+    Merchants may request access or deletion by uninstalling the App or emailing
+    <a href="mailto:stockopssupport@gmail.com">stockopssupport@gmail.com</a>.
+    Customers should contact the merchant; we assist merchants via Shopify compliance webhooks.
+  </p>
+
+  <h2>9. Changes</h2>
+  <p>We may update this policy; the “Last updated” date will change when we do.</p>
+
+  <h2>10. Contact</h2>
+  <p><a href="mailto:stockopssupport@gmail.com">stockopssupport@gmail.com</a></p>
+</body>
+</html>

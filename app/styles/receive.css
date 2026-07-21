@@ -1,0 +1,85 @@
+/* Receive page - table and form layout */
+
+.receive-page .Polaris-DataTable {
+  --polaris-data-table-cell-padding: var(--p-space-300) var(--p-space-400);
+}
+
+.receive-page .Polaris-DataTable th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+}
+
+.receive-page .Polaris-DataTable td {
+  vertical-align: middle;
+}
+
+/* Right-align numeric columns: 4=Ordered, 5=Received, 6=Pending */
+.receive-page .Polaris-DataTable td:nth-child(4),
+.receive-page .Polaris-DataTable td:nth-child(5),
+.receive-page .Polaris-DataTable td:nth-child(6),
+.receive-page .Polaris-DataTable th:nth-child(4),
+.receive-page .Polaris-DataTable th:nth-child(5),
+.receive-page .Polaris-DataTable th:nth-child(6) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.receive-page .Polaris-DataTable tbody tr:nth-child(even) {
+  background: var(--p-color-bg-surface-secondary);
+}
+
+.receive-page .Polaris-DataTable tbody tr:nth-child(odd) {
+  background: var(--p-color-bg-surface);
+}
+
+/* Receive qty inputs - compact, aligned with column */
+.receive-qty-input {
+  width: 72px;
+  min-width: 72px;
+  padding: var(--p-space-150) var(--p-space-200);
+  border: 1px solid var(--p-color-border);
+  border-radius: var(--p-border-radius-100);
+  background: var(--p-color-bg-surface);
+  font-size: var(--p-font-size-300);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.receive-qty-input:focus {
+  outline: 2px solid var(--p-color-border-info);
+  outline-offset: -1px;
+}
+
+/* Hide number input spinners */
+.receive-qty-input::-webkit-inner-spin-button,
+.receive-qty-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.receive-qty-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Receive table - qty column (7th) left-align so inputs align with header */
+.receive-table-wrapper .Polaris-DataTable td:nth-child(7),
+.receive-table-wrapper .Polaris-DataTable th:nth-child(7) {
+  text-align: left;
+}
+
+.receive-table-wrapper .Polaris-DataTable td:nth-child(7) {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* Reconcile table - Received (total) column (5th) */
+.reconcile-table-wrapper .Polaris-DataTable td:nth-child(5),
+.reconcile-table-wrapper .Polaris-DataTable th:nth-child(5) {
+  text-align: left;
+}
+
+.reconcile-table-wrapper .Polaris-DataTable td:nth-child(5) {
+  width: 1%;
+  white-space: nowrap;
+}

@@ -1,0 +1,130 @@
+/* Reorder table - professional layout */
+.reorder-table-wrapper {
+  overflow-x: auto;
+}
+
+.reorder-table-wrapper table {
+  width: 100%;
+  min-width: 1000px;
+}
+
+.reorder-table-wrapper th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: 12px 10px;
+  vertical-align: middle;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  line-height: 1.2;
+}
+
+/* Override Polaris - center headers and allow wrap */
+.reorder-table-wrapper th button,
+.reorder-table-wrapper th [class*="Heading"] {
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.reorder-table-wrapper td {
+  padding: 12px 10px;
+  vertical-align: middle;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Override Polaris first-column: match rest of table (centered text) */
+.reorder-table-wrapper th[class*="Cell--firstColumn"],
+.reorder-table-wrapper th:first-child,
+.reorder-table-wrapper td[class*="Cell--firstColumn"],
+.reorder-table-wrapper td:first-child {
+  text-align: center;
+}
+
+.reorder-table-wrapper th:last-child,
+.reorder-table-wrapper td:last-child {
+  border-right: none;
+}
+
+/* Column min-widths - headers wrap to 2 lines so columns can be narrower */
+.reorder-table-wrapper th:nth-child(1),
+.reorder-table-wrapper td:nth-child(1) { min-width: 90px; }
+.reorder-table-wrapper th:nth-child(2),
+.reorder-table-wrapper td:nth-child(2) { min-width: 80px; }
+.reorder-table-wrapper th:nth-child(3),
+.reorder-table-wrapper td:nth-child(3) { min-width: 100px; }
+.reorder-table-wrapper th:nth-child(4),
+.reorder-table-wrapper td:nth-child(4) { min-width: 70px; }
+.reorder-table-wrapper th:nth-child(5),
+.reorder-table-wrapper td:nth-child(5) { min-width: 75px; }
+.reorder-table-wrapper th:nth-child(6),
+.reorder-table-wrapper td:nth-child(6) { min-width: 80px; }
+.reorder-table-wrapper th:nth-child(7),
+.reorder-table-wrapper td:nth-child(7) { min-width: 55px; }
+.reorder-table-wrapper th:nth-child(8),
+.reorder-table-wrapper td:nth-child(8) { min-width: 55px; }
+.reorder-table-wrapper th:nth-child(9),
+.reorder-table-wrapper td:nth-child(9) { min-width: 50px; }
+.reorder-table-wrapper th:nth-child(10),
+.reorder-table-wrapper td:nth-child(10) { min-width: 55px; }
+.reorder-table-wrapper th:nth-child(11),
+.reorder-table-wrapper td:nth-child(11) { min-width: 60px; }
+.reorder-table-wrapper th:nth-child(12),
+.reorder-table-wrapper td:nth-child(12) { min-width: 50px; }
+.reorder-table-wrapper th:nth-child(13),
+.reorder-table-wrapper td:nth-child(13) { min-width: 60px; }
+.reorder-table-wrapper th:nth-child(14),
+.reorder-table-wrapper td:nth-child(14) { min-width: 75px; }
+
+/* Product, Variant, SKU, Supplier, Location - allow wrap for long text */
+.reorder-table-wrapper td:nth-child(1),
+.reorder-table-wrapper td:nth-child(2),
+.reorder-table-wrapper td:nth-child(3),
+.reorder-table-wrapper td:nth-child(4),
+.reorder-table-wrapper td:nth-child(6) {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.reorder-table-wrapper .reorder-wrap-text {
+  display: block;
+  margin: 0 auto;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+/* SKU column - thin when store doesn't use SKUs (<10% have SKU) */
+.reorder-table-wrapper.reorder-sku-thin th:nth-child(3),
+.reorder-table-wrapper.reorder-sku-thin td:nth-child(3) {
+  min-width: 70px;
+  max-width: none;
+  width: auto;
+}
+
+/* Action column - center the Add to PO button horizontally and vertically */
+.reorder-table-wrapper td:nth-child(14) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.reorder-table-wrapper td:nth-child(14) .Polaris-Button,
+.reorder-table-wrapper td:nth-child(14) button {
+  margin: auto;
+}
+
+/* Subtle row separation - uniform across all columns */
+.reorder-table-wrapper tbody tr {
+  background: var(--p-color-bg-surface);
+}
+.reorder-table-wrapper tbody tr:nth-child(even) {
+  background: var(--p-color-bg-surface-secondary);
+}

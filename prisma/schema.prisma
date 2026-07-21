@@ -1,0 +1,376 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+// App-specific shop record for multi-tenant scoping and encrypted token storage.
+// Token is encrypted at rest; never log or expose.
+model Shop {
+  id                         String    @id @default(cuid())
+  domain                     String    @unique
+  encryptedAccessToken       String
+  isEnabled                  Boolean   @default(true)
+  primaryWarehouseLocationId String?   @unique
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+
+  products                   Product[]
+  locations                  Location[]
+  primaryWarehouseLocation   Location? @relation("PrimaryWarehouse", fields: [primaryWarehouseLocationId], references: [id], onDelete: SetNull)
+  webhookEvents              WebhookEvent[]
+  shopSetting                ShopSetting?
+  suppliers                  Supplier[]
+  purchaseOrders             PurchaseOrder[]
+  stockTransfers             StockTransfer[]
+  stockTakes                 StockTake[]
+  stockAdjustments            StockAdjustment[]
+}
+
+model Product {
+  id                 String   @id @default(cuid())
+  shopId             String
+  shopifyProductId   String
+  title              String
+  handle             String
+  status             String
+  productType        String?   // e.g. "Gift Card" - exclude from reorder
+  deletedAt          DateTime? // soft-delete for PO history
+  createdAt           DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  shop               Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  variants           Variant[]
+
+  @@unique([shopId, shopifyProductId])
+}
+
+model Variant {
+  id                     String   @id @default(cuid())
+  productId              String
+  shopId                 String
+  shopifyVariantId       String
+  shopifyInventoryItemId String?
+  sku                    String?
+  title                  String
+  price                  String
+  inventoryTracked       Boolean  @default(true) // false = don't track, exclude from reorder
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  product               Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  inventoryLevels       InventoryLevel[]
+  salesDaily            SalesDaily[]
+  variantSuppliers      VariantSupplier[]
+  purchaseOrderLines    PurchaseOrderLine[]
+  inventoryEvents       InventoryEvent[]
+  stockTransferLines    StockTransferLine[]
+  stockTakeLines        StockTakeLine[]
+  stockAdjustmentLines  StockAdjustmentLine[]
+
+  @@unique([shopId, shopifyVariantId])
+}
+
+model Location {
+  id                 String   @id @default(cuid())
+  shopId             String
+  shopifyLocationId  String
+  name               String
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  shop                    Shop              @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopAsPrimaryWarehouse  Shop?             @relation("PrimaryWarehouse")
+  inventoryLevels         InventoryLevel[]
+  inventoryEvents         InventoryEvent[]
+  purchaseOrdersReceiving  PurchaseOrder[]   @relation("POReceiving")
+  purchaseOrdersShipping  PurchaseOrder[]   @relation("POShippingFrom")
+  stockTransfersFrom      StockTransfer[]   @relation("TransferSource")
+  stockTransfersTo        StockTransfer[]   @relation("TransferDest")
+  stockTakes              StockTake[]
+  stockAdjustments        StockAdjustment[]
+
+  @@unique([shopId, shopifyLocationId])
+}
+
+model InventoryLevel {
+  id         String   @id @default(cuid())
+  shopId     String
+  variantId  String
+  locationId String
+  available  Int      @default(0)
+  updatedAt  DateTime @updatedAt
+
+  variant    Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, locationId])
+}
+
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  webhookId   String   @unique
+  shopId      String
+  topic       String
+  processedAt DateTime @default(now())
+
+  shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+}
+
+model SalesDaily {
+  id         String   @id @default(cuid())
+  shopId     String
+  variantId  String
+  date       DateTime
+  unitsSold  Int      @default(0)
+  updatedAt  DateTime @updatedAt
+
+  variant    Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, date])
+}
+
+model ShopSetting {
+  id                    String   @id @default(cuid())
+  shopId                String   @unique
+  defaultLeadTimeDays   Int      @default(7)
+  defaultSafetyDays     Int      @default(3)
+  updatedAt             DateTime @updatedAt
+
+  shop                  Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+}
+
+model Supplier {
+  id                   String   @id @default(cuid())
+  shopId               String
+  name                 String
+  email                String?
+  phone                String?
+  address1             String?
+  address2             String?
+  city                 String?
+  provinceCode         String?
+  zip                  String?
+  countryCode          String?  @default("US")
+  notes                String?
+  defaultLeadTimeDays  Int?
+  defaultCost          String?
+  defaultMinStock      Int?
+  defaultMaxStock      Int?
+  defaultMinOrderQty   Int?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  shop              Shop              @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  variantSuppliers  VariantSupplier[]
+  purchaseOrders    PurchaseOrder[]
+}
+
+model VariantSupplier {
+  id             String   @id @default(cuid())
+  variantId      String
+  supplierId     String
+  cost           String?
+  leadTimeDays   Int?
+  skuAtSupplier  String?
+  minStock       Int?     // min stock level (reorder trigger)
+  maxStock       Int?     // target stock level
+  minOrderQty    Int?     // min units per PO
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  variant        Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  supplier       Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, supplierId])
+}
+
+model PurchaseOrder {
+  id                     String    @id @default(cuid())
+  shopId                  String
+  poNumber               Int       @default(0) // Human-readable: PO-001, PO-002 per shop
+  supplierId              String
+  status                  String    @default("DRAFT")
+  deletedAt               DateTime? // soft-delete: hidden from main list, kept for records
+  orderedAt               DateTime?
+  notes                   String?
+  receivingLocationId     String?
+  shippingFromLocationId  String?
+  invoiceNumber           String?
+  supplierOrderNumber     String?
+  expectedShipmentAt      DateTime?
+  cancelByAt              DateTime?
+  amountPaid              String?   // decimal as string
+  amountDue               String?
+  adjustments             String?   // decimal as string
+  shipping                String?   // decimal as string
+  tax                     String?   // decimal as string
+  paidAt                  DateTime?
+  paymentDueAt            DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  shop                    Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  supplier                Supplier  @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  receivingLocation       Location? @relation("POReceiving", fields: [receivingLocationId], references: [id], onDelete: SetNull)
+  shippingFromLocation    Location? @relation("POShippingFrom", fields: [shippingFromLocationId], references: [id], onDelete: SetNull)
+  lines                   PurchaseOrderLine[]
+
+  @@unique([shopId, poNumber])
+}
+
+model PurchaseOrderLine {
+  id              String   @id @default(cuid())
+  purchaseOrderId String
+  variantId       String
+  orderedQty      Int
+  unitCost        String?
+  receivedQty     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  variant         Variant      @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([purchaseOrderId, variantId])
+}
+
+model InventoryEvent {
+  id             String   @id @default(cuid())
+  shopId         String
+  idempotencyKey String   @unique
+  variantId      String
+  locationId     String
+  quantityDelta  Int
+  source         String
+  referenceId    String?
+  createdAt      DateTime @default(now())
+
+  variant        Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  location       Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+model StockTransfer {
+  id               String    @id @default(cuid())
+  shopId           String
+  sourceLocationId String
+  destLocationId   String
+  status           String    @default("DRAFT") // DRAFT, IN_TRANSIT, RECEIVED, CANCELED
+  transferNumber   Int       @default(0) // Human-readable: TR-001, TR-002 per shop
+  notes            String?
+  reasonCode       String?
+  sentAt           DateTime?
+  receivedAt       DateTime?
+  deletedAt        DateTime? // soft-delete: hidden from main list, kept for records
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  shop             Shop               @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  sourceLocation    Location            @relation("TransferSource", fields: [sourceLocationId], references: [id], onDelete: Restrict)
+  destLocation      Location            @relation("TransferDest", fields: [destLocationId], references: [id], onDelete: Restrict)
+  lines             StockTransferLine[]
+}
+
+model StockTransferLine {
+  id               String   @id @default(cuid())
+  stockTransferId  String
+  variantId        String
+  quantity         Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  stockTransfer    StockTransfer @relation(fields: [stockTransferId], references: [id], onDelete: Cascade)
+  variant          Variant      @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([stockTransferId, variantId])
+}
+
+model StockTake {
+  id           String   @id @default(cuid())
+  shopId       String
+  locationId   String
+  name         String
+  mode         String   @default("MANUAL") // MANUAL, BARCODE
+  status       String   @default("DRAFT")  // DRAFT, IN_PROGRESS, COMPLETED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  shop         Shop           @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  location     Location       @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  lines        StockTakeLine[]
+}
+
+model StockTakeLine {
+  id          String   @id @default(cuid())
+  stockTakeId String
+  variantId   String
+  expectedQty Int      @default(0)
+  countedQty  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stockTake   StockTake @relation(fields: [stockTakeId], references: [id], onDelete: Cascade)
+  variant     Variant   @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([stockTakeId, variantId])
+}
+
+model StockAdjustment {
+  id          String    @id @default(cuid())
+  shopId      String
+  locationId  String
+  reasonCode  String?
+  notes       String?
+  performedAt DateTime?
+  performedBy String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  shop        Shop                 @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  location    Location             @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  lines       StockAdjustmentLine[]
+}
+
+model StockAdjustmentLine {
+  id                 String   @id @default(cuid())
+  stockAdjustmentId  String
+  variantId          String
+  quantityDelta      Int      // + or -
+  createdAt          DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  stockAdjustment    StockAdjustment @relation(fields: [stockAdjustmentId], references: [id], onDelete: Cascade)
+  variant            Variant         @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([stockAdjustmentId, variantId])
+}

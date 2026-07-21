@@ -1,0 +1,11 @@
+/* Suppliers list table - left align all columns */
+.suppliers-list-table th,
+.suppliers-list-table td {
+  text-align: left;
+}
+/* SKUs column - compact, right after Name */
+.suppliers-list-table th:nth-child(2),
+.suppliers-list-table td:nth-child(2) {
+  width: 1%;
+  white-space: nowrap;
+}

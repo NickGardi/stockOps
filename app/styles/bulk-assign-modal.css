@@ -1,0 +1,61 @@
+/* Bulk assign modal - neat table styling */
+.bulk-assign-table-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--p-color-border-secondary);
+  border-radius: var(--p-border-radius-200);
+  background: var(--p-color-bg-surface);
+}
+
+.bulk-assign-table-wrapper .Polaris-DataTable {
+  --polaris-data-table-cell-padding: var(--p-space-300) var(--p-space-400);
+}
+
+.bulk-assign-table-wrapper .Polaris-DataTable th {
+  font-weight: 600;
+  background: var(--p-color-bg-surface-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.bulk-assign-table-wrapper .Polaris-DataTable td {
+  vertical-align: middle;
+}
+
+/* Right-align numeric columns: On Hand, Sold 30d */
+.bulk-assign-table-wrapper table th:nth-child(6),
+.bulk-assign-table-wrapper table th:nth-child(7),
+.bulk-assign-table-wrapper table td:nth-child(6),
+.bulk-assign-table-wrapper table td:nth-child(7) {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Center checkbox column */
+.bulk-assign-table-wrapper table th:first-child,
+.bulk-assign-table-wrapper table td:first-child {
+  text-align: center !important;
+  width: 44px;
+}
+
+/* Center text columns: Product, Variant, SKU, Supplier */
+.bulk-assign-table-wrapper table th:nth-child(2),
+.bulk-assign-table-wrapper table th:nth-child(3),
+.bulk-assign-table-wrapper table th:nth-child(4),
+.bulk-assign-table-wrapper table th:nth-child(5),
+.bulk-assign-table-wrapper table td:nth-child(2),
+.bulk-assign-table-wrapper table td:nth-child(3),
+.bulk-assign-table-wrapper table td:nth-child(4),
+.bulk-assign-table-wrapper table td:nth-child(5) {
+  text-align: center !important;
+}
+
+/* Row striping */
+.bulk-assign-table-wrapper .Polaris-DataTable tbody tr:nth-child(even) {
+  background: var(--p-color-bg-surface-secondary);
+}
+
+.bulk-assign-table-wrapper .Polaris-DataTable tbody tr:nth-child(odd) {
+  background: var(--p-color-bg-surface);
+}
